@@ -8,7 +8,7 @@
 #include "crypto/util/Miner.h"
 
 #ifndef DEFAULT_HPF
-	#define DEFAULT_HPF 5
+	#define DEFAULT_HPF 3
 #endif
 
 namespace opencl {
