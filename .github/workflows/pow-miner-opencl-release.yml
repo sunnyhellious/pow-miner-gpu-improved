@@ -1,0 +1,85 @@
+name: pow-miner-opencl-release.yml
+
+on:
+  push:
+    tags:
+    - '*'
+
+jobs:
+  create-release:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-18.04
+            cuda: 10.1
+          - os: ubuntu-20.04
+            cuda: 11.3
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
+
+    - name: Install prerequesties
+      run: |
+        sudo apt update -y && \
+        sudo apt upgrade -y && \
+        sudo apt install -y gcc-8 g++-8 opencl-headers ocl-icd-opencl-dev
+
+    - name: Install CUDA
+      env:
+        cuda: ${{ matrix.cuda }}
+      run: bash ./scripts/install_cuda_ubuntu.sh
+      shell: bash
+
+    - name: mkdir
+      run: |
+        mkdir build
+
+    - name: cmake configuration
+      env:
+        CC: /usr/bin/gcc-8
+        CXX: /usr/bin/g++-8
+      run: |
+        cd build && \
+        cmake -DTON_ARCH=x86-64 -DMINERCUDA=1 -DMINEROPENCL=1 -DCMAKE_BUILD_TYPE=Release ..
+
+    - name: cmake build pow-miner-opencl
+      run: |
+        cd build && cmake --build . --target pow-miner-opencl -j2
+
+    - name: cmake build pow-miner-cuda
+      run: |
+        cd build && cmake --build . --target pow-miner-cuda -j2
+
+    - name: cmake build tonlib-cuda-cli
+      run: |
+        cd build && cmake --build . --target tonlib-cuda-cli -j2
+
+    - name: cmake build tonlib-opencl-cli
+      run: |
+        cd build && cmake --build . --target tonlib-opencl-cli -j2
+
+    - name: cmake build lite-client
+      run: |
+        cd build && cmake --build . --target lite-client
+
+    - name: naming convention
+      run: |
+        rm -r ./lite-client && chmod +x build/lite-client/lite-client && cp build/lite-client/lite-client .
+        chmod +x build/crypto/pow-miner-opencl && cp build/crypto/pow-miner-opencl .
+        chmod +x build/crypto/pow-miner-cuda && cp build/crypto/pow-miner-cuda .
+        chmod +x build/tonlib/tonlib-opencl-cli && cp build/tonlib/tonlib-opencl-cli .
+        chmod +x build/tonlib/tonlib-cuda-cli && cp build/tonlib/tonlib-cuda-cli .
+        tar -zcf build/crypto/minertools-opencl-${{ matrix.os }}-x86-64.tar.gz pow-miner-opencl tonlib-opencl-cli lite-client
+        tar -zcf build/crypto/minertools-cuda-${{ matrix.os }}-x86-64.tar.gz pow-miner-cuda tonlib-cuda-cli lite-client
+
+    - name: packing
+      uses: ncipollo/release-action@v1
+      with:
+        allowUpdates: true
+        artifacts: build/crypto/minertools-*
+        token: ${{ secrets.GITHUB_TOKEN }}
