@@ -1,3 +1,8 @@
+## This is an official custom miner for TON
+* As base legacy code is used, which is currently works on all GPUs
+* Added some cool OpenCL optimizations and now we have ~1.6x boost on AMD cards and ~1.9x on NVidia cards
+* And works on all platforms 
+
 ## "Soft" Pull Request rules
 
 * Thou shall not merge your own PRs, at least one person should review the PR and merge it (4-eyes rule)
@@ -26,22 +31,5 @@ Tested on:
 
 | GPU | Hashrate |
 |-----|:---------|
-NVIDIA GTX1060 | 3.8e+08
-NVIDIA GTX1070 | 5.2e+08
-NVIDIA GTX1070 Ti | 7.1e+08
-NVIDIA GTX1080 | 8.58523e+08
-NVIDIA GTX1080 Ti | 9.21737e+08
-NVIDIA GTX1660 Ti | 7.16364e+08
-NVIDIA GTX1660 Super | 6.41743e+08
-NVIDIA RTX2060 Super | 8.67233e+08
-NVIDIA RTX2070 |
-NVIDIA RTX2080 Super | 1.34181e+09
-NVIDIA RTX3060 | 8.45722e+08
-NVIDIA RTX3060 Ti | 1.238870e+09
-NVIDIA RTX3070 | 1.45591e+09
-NVIDIA RTX3070 Ti | 1.594258e+09
-NVIDIA RTX3080 | 2.018200e+09
-NVIDIA RTX3090 | 2.385980e+09 
-NVIDIA Tesla T4 |
-AMD Radeon 580 | 4.2e+08
-AMD Radeon 6600 | 6.6e+08
+NVIDIA GTX1070 | 9.0e+08
+AMD Radeon 4890 | 5.5e+07
