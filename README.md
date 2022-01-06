@@ -1,4 +1,4 @@
-## This is an official custom miner for TON
+## This is improved official custom miner for TON
 * As base legacy code is used, which is currently works on all GPUs
 * Added some cool OpenCL optimizations and now we have ~1.6x boost on AMD cards and ~1.9x on NVidia cards
 * And works on all platforms 
