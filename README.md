@@ -1,10 +1,11 @@
 ## TON wallet address for donations: <br />
 __EQAvRnuckR42aEE29_WCDCTOwEci1ZKo8a5ul4ncYWaqxA2q__
 
-## This is improved official custom miner for TON
+## This is improved official custom miner for TON with big OpenCL improvements
 * As base legacy code is used, which is currently works on all GPUs
 * Added some cool OpenCL optimizations and now we have ~1.8x boost on AMD and NVidia cards
 * And works on all platforms 
+* Actually now OpenCL kernel calculates several hashes per one flight. Quantity of hashes per flight is parameterized by HPF define in [sha256.cpp](crypto/util/opencl/sha256.cpp)
 
 ## "Soft" Pull Request rules
 
